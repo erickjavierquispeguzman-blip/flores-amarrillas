@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5e9">
+  <meta name="description" content="Un ramito amarillo para una amiga muy especial.">
+  <title>Un ramito para ti 🌼</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f7f5e9;
+      --ink: #243c32;
+      --muted: #647568;
+      --green: #52795b;
+      --deep-green: #335843;
+      --yellow: #f6c944;
+      --gold: #e9a91b;
+      --pink: #e98f8c;
+      --white: #fffdf4;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 13% 16%, rgba(232, 143, 140, .17), transparent 27%),
+        radial-gradient(ellipse at 90% 84%, rgba(116, 157, 110, .2), transparent 32%),
+        var(--paper);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    button { font: inherit; }
+
+    .page {
+      display: grid;
+      min-height: 100vh;
+      place-items: center;
+      padding: 28px 18px;
+      overflow: hidden;
+    }
+
+    .scene {
+      position: relative;
+      display: grid;
+      width: min(100%, 970px);
+      min-height: min(690px, calc(100vh - 56px));
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: clamp(24px, 5vw, 70px);
+      padding: clamp(28px, 6vw, 76px);
+      border: 1px solid rgba(51, 88, 67, .12);
+      border-radius: 8px;
+      background: rgba(255, 253, 244, .68);
+      box-shadow: 0 24px 80px rgba(69, 83, 48, .1);
+    }
+
+    .scene::before, .scene::after {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border-color: rgba(233, 169, 27, .55);
+      border-style: solid;
+      content: "";
+      pointer-events: none;
+    }
+
+    .scene::before { top: 14px; left: 14px; border-width: 1px 0 0 1px; }
+    .scene::after { right: 14px; bottom: 14px; border-width: 0 1px 1px 0; }
+
+    .bouquet-wrap {
+      position: relative;
+      display: grid;
+      min-height: 400px;
+      place-items: center;
+    }
+
+    .bouquet {
+      position: relative;
+      width: min(100%, 360px);
+      height: 380px;
+      animation: arrive .9s cubic-bezier(.2,.75,.25,1) both;
+    }
+
+    .stem {
+      position: absolute;
+      z-index: 0;
+      top: 135px;
+      left: 50%;
+      width: 5px;
+      height: 210px;
+      border-radius: 5px;
+      background: linear-gradient(90deg, #4d774e, #87a85d);
+      transform-origin: top;
+    }
+
+    .stem.one { transform: rotate(-20deg); }
+    .stem.two { transform: rotate(-9deg); }
+    .stem.three { transform: rotate(10deg); }
+    .stem.four { transform: rotate(22deg); }
+
+    .leaf {
+      position: absolute;
+      z-index: 1;
+      width: 61px;
+      height: 28px;
+      border-radius: 100% 0 100% 0;
+      background: linear-gradient(135deg, #9dbb69, #52795b 72%);
+      transform: rotate(-34deg);
+    }
+
+    .leaf.left { top: 244px; left: 68px; }
+    .leaf.right { top: 274px; right: 61px; transform: scaleX(-1) rotate(-34deg); }
+    .leaf.low { top: 304px; left: 125px; width: 48px; transform: rotate(22deg); }
+
+    .flower {
+      position: absolute;
+      z-index: 2;
+      width: 116px;
+      height: 116px;
+      animation: sway 4s ease-in-out infinite alternate;
+      transform-origin: 50% 90%;
+    }
+
+    .flower:nth-of-type(1) { top: 99px; left: 1px; transform: scale(.65) rotate(-18deg); animation-delay: -1.6s; }
+    .flower:nth-of-type(2) { top: 38px; left: 40px; transform: scale(.82) rotate(-13deg); animation-delay: -.5s; }
+    .flower:nth-of-type(3) { top: 11px; left: 126px; transform: scale(1.02); animation-delay: -1.3s; }
+    .flower:nth-of-type(4) { top: 45px; right: 24px; transform: scale(.85) rotate(15deg); animation-delay: -.9s; }
+    .flower:nth-of-type(5) { top: 109px; left: 76px; transform: scale(.72) rotate(-12deg); animation-delay: -1.8s; }
+    .flower:nth-of-type(6) { top: 105px; right: 62px; transform: scale(.77) rotate(12deg); animation-delay: -1.1s; }
+
+    .petals {
+      position: absolute;
+      inset: 0;
+      animation: turn 40s linear infinite;
+    }
+
+    .petals i {
+      position: absolute;
+      top: 2px;
+      left: 43px;
+      width: 30px;
+      height: 52px;
+      border: 1px solid rgba(187, 135, 24, .18);
+      border-radius: 50% 50% 45% 45%;
+      background: linear-gradient(150deg, #ffe983, var(--yellow) 75%);
+      transform-origin: 15px 56px;
+    }
+
+    .petals i:nth-child(2) { transform: rotate(45deg); }
+    .petals i:nth-child(3) { transform: rotate(90deg); }
+    .petals i:nth-child(4) { transform: rotate(135deg); }
+    .petals i:nth-child(5) { transform: rotate(180deg); }
+    .petals i:nth-child(6) { transform: rotate(225deg); }
+    .petals i:nth-child(7) { transform: rotate(270deg); }
+    .petals i:nth-child(8) { transform: rotate(315deg); }
+
+    .center {
+      position: absolute;
+      top: 42px;
+      left: 42px;
+      width: 32px;
+      height: 32px;
+      border: 3px solid #f8db72;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #9c6331, #624123 72%);
+      box-shadow: 0 2px 5px rgba(59, 47, 20, .22);
+    }
+
+    .wrap {
+      position: absolute;
+      z-index: 3;
+      bottom: 16px;
+      left: 50%;
+      width: 196px;
+      height: 143px;
+      background: linear-gradient(128deg, #f1b8a0 0 49%, #e59b87 50%);
+      clip-path: polygon(0 0, 100% 0, 74% 100%, 26% 100%);
+      transform: translateX(-50%);
+      filter: drop-shadow(0 9px 6px rgba(57, 73, 47, .14));
+    }
+
+    .wrap::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 31px;
+      background: linear-gradient(90deg, #f5c1a5, #f8d2b5, #eaa28f);
+      content: "";
+    }
+
+    .ribbon {
+      position: absolute;
+      z-index: 4;
+      bottom: 64px;
+      left: 50%;
+      width: 72px;
+      height: 23px;
+      border-radius: 50%;
+      background: var(--pink);
+      transform: translateX(-50%) rotate(-8deg);
+    }
+
+    .ribbon::before, .ribbon::after {
+      position: absolute;
+      top: 11px;
+      width: 33px;
+      height: 28px;
+      border: 7px solid #d97478;
+      border-radius: 50% 50% 5px 50%;
+      content: "";
+    }
+
+    .ribbon::before { right: 51px; transform: rotate(25deg); }
+    .ribbon::after { left: 51px; transform: scaleX(-1) rotate(25deg); }
+
+    .copy { position: relative; z-index: 1; }
+
+    .eyebrow {
+      margin: 0 0 17px;
+      color: var(--green);
+      font-family: "Trebuchet MS", sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 420px;
+      margin: 0;
+      font-size: clamp(38px, 5vw, 62px);
+      font-weight: 400;
+      line-height: .99;
+      letter-spacing: 0;
+    }
+
+    h1 span { color: #bd7a35; font-style: italic; }
+
+    .intro {
+      max-width: 340px;
+      margin: 22px 0 27px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .open-button {
+      display: inline-flex;
+      min-height: 50px;
+      align-items: center;
+      gap: 12px;
+      padding: 0 21px;
+      border: 0;
+      border-radius: 3px;
+      color: #fffdf4;
+      background: var(--deep-green);
+      box-shadow: 0 6px 15px rgba(51, 88, 67, .18);
+      cursor: pointer;
+      font-family: "Trebuchet MS", sans-serif;
+      font-size: 14px;
+      transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+    }
+
+    .open-button:hover { background: #244735; box-shadow: 0 8px 18px rgba(51, 88, 67, .24); transform: translateY(-2px); }
+    .open-button:focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
+    .button-flower { color: #f6cf62; font-size: 19px; }
+
+    .letter {
+      display: grid;
+      grid-template-rows: 0fr;
+      opacity: 0;
+      transition: grid-template-rows .55s ease, opacity .45s ease, margin .45s ease;
+    }
+
+    .letter-inner { overflow: hidden; }
+    .letter p { max-width: 355px; margin: 0; color: #536458; font-size: 16px; line-height: 1.75; }
+    .letter .signoff { margin-top: 12px; color: var(--deep-green); font-style: italic; }
+    .scene.is-open .letter { grid-template-rows: 1fr; margin-top: 21px; opacity: 1; }
+    .scene.is-open .intro { margin-bottom: 15px; }
+    .scene.is-open .open-button { min-height: 42px; padding: 0 16px; }
+    .scene.is-open h1 { font-size: clamp(32px, 4vw, 45px); }
+
+    .tiny-note {
+      position: absolute;
+      right: 30px;
+      bottom: 22px;
+      color: #718171;
+      font-family: "Trebuchet MS", sans-serif;
+      font-size: 11px;
+    }
+
+    @keyframes sway { from { rotate: -2deg; } to { rotate: 2deg; } }
+    @keyframes turn { to { rotate: 360deg; } }
+    @keyframes arrive { from { opacity: 0; translate: 0 18px; } to { opacity: 1; translate: 0 0; } }
+
+    @media (max-width: 700px) {
+      .page { padding: 14px; }
+      .scene {
+        min-height: auto;
+        grid-template-columns: 1fr;
+        gap: 2px;
+        padding: 27px 25px 42px;
+      }
+      .scene::before, .scene::after { width: 48px; height: 48px; }
+      .bouquet-wrap { min-height: 290px; }
+      .bouquet { height: 290px; scale: .77; }
+      .copy { padding: 0 4px; }
+      h1 { max-width: 360px; font-size: clamp(38px, 11vw, 54px); }
+      .intro { margin: 15px 0 20px; font-size: 15px; }
+      .letter p { font-size: 15px; }
+      .tiny-note { right: 24px; bottom: 16px; }
+      .scene.is-open .bouquet-wrap { min-height: 250px; }
+    }
+
+    @media (max-width: 380px) {
+      .scene { padding-right: 20px; padding-left: 20px; }
+      .bouquet-wrap { min-height: 252px; }
+      .bouquet { scale: .68; }
+      .scene.is-open .bouquet-wrap { min-height: 220px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="scene" id="dedication" aria-labelledby="title">
+      <div class="bouquet-wrap" aria-hidden="true">
+        <div class="bouquet">
+          <span class="stem one"></span><span class="stem two"></span><span class="stem three"></span><span class="stem four"></span>
+          <span class="leaf left"></span><span class="leaf right"></span><span class="leaf low"></span>
+          <div class="flower"><div class="petals"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="center"></span></div>
+          <div class="flower"><div class="petals"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="center"></span></div>
+          <div class="flower"><div class="petals"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="center"></span></div>
+          <div class="flower"><div class="petals"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="center"></span></div>
+          <div class="flower"><div class="petals"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="center"></span></div>
+          <div class="flower"><div class="petals"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="center"></span></div>
+          <div class="wrap"></div><div class="ribbon"></div>
+        </div>
+      </div>
+
+      <div class="copy">
+        <p class="eyebrow">Un detallito para alguien especial</p>
+        <h1 id="title">Un ramito <span>para ti</span></h1>
+        <p class="intro">Porque hay amigas que hacen que hasta los días más simples tengan un poquito más de luz.</p>
+        <button class="open-button" id="open-letter" type="button" aria-expanded="false" aria-controls="letter">
+          <span class="button-flower" aria-hidden="true">✿</span>
+          <span class="button-label">Abrir mi regalito</span>
+        </button>
+        <div class="letter" id="letter" aria-hidden="true">
+          <div class="letter-inner">
+            <p>Quería recordarte lo muchísimo que te quiero y lo agradecida que estoy de tenerte en mi vida. Gracias por tus risas, por escucharme y por ser esa amiga tan bonita que siempre alegra todo. Ojalá este ramito te saque una sonrisa, igual que tú tantas veces me la sacas a mí.</p>
+            <p class="signoff">Con mucho cariño, tu amiga 🌼</p>
+          </div>
+        </div>
+      </div>
+      <span class="tiny-note" aria-hidden="true">hecho con mucho cariño</span>
+    </section>
+  </main>
+  <script>
+    const card = document.querySelector("#dedication");
+    const button = document.querySelector("#open-letter");
+    const letter = document.querySelector("#letter");
+    const label = button.querySelector(".button-label");
+
+    button.addEventListener("click", () => {
+      const isOpen = button.getAttribute("aria-expanded") === "true";
+      button.setAttribute("aria-expanded", String(!isOpen));
+      letter.setAttribute("aria-hidden", String(isOpen));
+      card.classList.toggle("is-open", !isOpen);
+      label.textContent = isOpen ? "Abrir mi regalito" : "Cerrar cartita";
+    });
+  </script>
+</body>
+</html>
